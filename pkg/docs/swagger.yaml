@@ -1,0 +1,154 @@
+definitions:
+  inputForms.AddCatalogInput:
+    properties:
+      catalog_level:
+        type: integer
+      catalog_name:
+        type: string
+      catalog_parent_id:
+        type: integer
+    required:
+    - catalog_name
+    type: object
+  models.Catalog:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      parent_id:
+        type: integer
+    type: object
+  models.MainCatalog:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  outputForms.DeleteResponse:
+    properties:
+      status:
+        type: string
+    type: object
+  outputForms.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Catalog moderation methods for skipper cms
+  title: Catalog service
+  version: "1.0"
+paths:
+  /catalog:
+    delete:
+      consumes:
+      - application/json
+      description: Удаление элемента каталога
+      parameters:
+      - description: Id элемента каталога
+        in: query
+        name: catalog_id
+        required: true
+        type: integer
+      - description: Уровень элемента католога
+        in: query
+        name: catalog_level
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/outputForms.DeleteResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/outputForms.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/outputForms.ErrorResponse'
+      security:
+      - BearerAuth: []
+      tags:
+      - Catalog
+    post:
+      consumes:
+      - application/json
+      description: Добавление элементов каталога
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inputForms.AddCatalogInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Catalog'
+      security:
+      - BearerAuth: []
+      tags:
+      - Catalog
+  /catalog/child:
+    get:
+      consumes:
+      - application/json
+      description: Получение детей элемента каталога
+      parameters:
+      - description: Id родителя элемента
+        in: query
+        name: parent_id
+        required: true
+        type: integer
+      - description: Уровень элемента католога
+        in: query
+        name: catalog_level
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Catalog'
+            type: array
+      security:
+      - BearerAuth: []
+      tags:
+      - Catalog
+  /catalog/main-catalog:
+    get:
+      consumes:
+      - application/json
+      description: Получение верхнего уровня католога
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.MainCatalog'
+            type: array
+      security:
+      - BearerAuth: []
+      tags:
+      - Catalog
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
