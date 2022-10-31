@@ -10,6 +10,7 @@ type Catalog interface {
 	GetMainCatalog() []models.MainCatalog
 	GetCatalogElements(parentId uint, catalogLevel uint) []models.Catalog
 	AddCatalogElement(name string, level uint, parentId uint) (models.Catalog, error)
+	ChangeCatalogElementName(newName string, level uint, catalogId uint) (models.Catalog, error)
 }
 
 type Service struct {

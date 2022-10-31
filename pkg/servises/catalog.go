@@ -44,37 +44,46 @@ func (c CatalogService) GetCatalogElements(parentId uint, catalogLevel uint) []m
 }
 
 func (c CatalogService) AddCatalogElement(name string, level uint, parentId uint) (models.Catalog, error) {
+	var element any
+	var err error
 	switch level {
 	case 0:
-		element, err := c.repo.AddMainCatalogElement(name)
-		catalogElement := TransformCatalogElement(element)
-		if err != nil {
-			return catalogElement, err
-		}
-		return catalogElement, nil
+		element, err = c.repo.AddMainCatalogElement(name)
 	case 1:
-		element, err := c.repo.AddCatalogFirstElement(name, parentId)
-		catalogElement := TransformCatalogElement(element)
-		if err != nil {
-			return catalogElement, err
-		}
-		return catalogElement, nil
+		element, err = c.repo.AddCatalogFirstElement(name, parentId)
 	case 2:
-		element, err := c.repo.AddCatalogSecondElement(name, parentId)
-		catalogElement := TransformCatalogElement(element)
-		if err != nil {
-			return catalogElement, err
-		}
-		return catalogElement, nil
+		element, err = c.repo.AddCatalogSecondElement(name, parentId)
 	case 3:
-		element, err := c.repo.AddCatalogThirdElement(name, parentId)
-		catalogElement := TransformCatalogElement(element)
-		if err != nil {
-			return catalogElement, err
-		}
-		return catalogElement, nil
+		element, err = c.repo.AddCatalogThirdElement(name, parentId)
 	}
-	return models.Catalog{}, nil
+	catalogElement := TransformCatalogElement(element)
+	if err != nil {
+		return catalogElement, err
+	}
+	return catalogElement, nil
+}
+
+func (c CatalogService) ChangeCatalogElementName(newName string, level uint, catalogId uint) (models.Catalog, error) {
+	var element any
+	var err error
+	switch level {
+	case 0:
+		element, err = c.repo.ChangeCatalogZeroLvlElementName(newName, catalogId)
+		fmt.Println(element)
+	case 1:
+		element, err = c.repo.ChangeCatalogFirstLvlElementName(newName, catalogId)
+	case 2:
+		element, err = c.repo.ChangeCatalogSecondLvlElementName(newName, catalogId)
+	case 3:
+		element, err = c.repo.ChangeCatalogThirdLvlElementName(newName, catalogId)
+	}
+
+	catalogElement := TransformCatalogElement(element)
+	fmt.Println(element)
+	if err != nil {
+		return catalogElement, err
+	}
+	return catalogElement, nil
 }
 
 func TransformCatalogElements(catalog any) []models.Catalog {

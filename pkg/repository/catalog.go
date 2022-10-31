@@ -86,3 +86,43 @@ func (c CatalogPostgres) AddCatalogThirdElement(name string, parentId uint) (*mo
 	err := c.db.Save(&catalog)
 	return &catalog, err.Error
 }
+
+func (c CatalogPostgres) ChangeCatalogZeroLvlElementName(newName string, catalogId uint) (models.Catalog0, error) {
+	var catalog models.Catalog0
+	err := c.db.Where("id = ?", catalogId).Find(&catalog)
+	err = c.db.Model(&catalog).Update("name", newName)
+	if err.Error != nil {
+		return models.Catalog0{}, err.Error
+	}
+	return catalog, nil
+}
+
+func (c CatalogPostgres) ChangeCatalogFirstLvlElementName(newName string, catalogId uint) (models.Catalog1, error) {
+	var catalog models.Catalog1
+	err := c.db.Where("id = ?", catalogId).Find(&catalog)
+	err = c.db.Model(&catalog).Update("name", newName)
+	if err.Error != nil {
+		return models.Catalog1{}, err.Error
+	}
+	return catalog, nil
+}
+
+func (c CatalogPostgres) ChangeCatalogSecondLvlElementName(newName string, catalogId uint) (models.Catalog2, error) {
+	var catalog models.Catalog2
+	err := c.db.Where("id = ?", catalogId).Find(&catalog)
+	err = c.db.Model(&catalog).Update("name", newName)
+	if err.Error != nil {
+		return models.Catalog2{}, err.Error
+	}
+	return catalog, nil
+}
+
+func (c CatalogPostgres) ChangeCatalogThirdLvlElementName(newName string, catalogId uint) (models.Catalog3, error) {
+	var catalog models.Catalog3
+	err := c.db.Where("id = ?", catalogId).Find(&catalog)
+	err = c.db.Model(&catalog).Update("name3", newName)
+	if err.Error != nil {
+		return models.Catalog3{}, err.Error
+	}
+	return catalog, nil
+}

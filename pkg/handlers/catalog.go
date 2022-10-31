@@ -3,7 +3,6 @@ package handlers
 import (
 	"Skipper_cms_catalog/pkg/models/forms/inputForms"
 	"Skipper_cms_catalog/pkg/models/forms/outputForms"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -85,19 +84,41 @@ func (h *Handler) deleteCatalogElement(c *gin.Context) {
 func (h *Handler) addCatalogElement(c *gin.Context) {
 	var params inputForms.AddCatalogInput
 	if err := c.BindJSON(&params); err != nil {
-		fmt.Println(err)
-		fmt.Println(params)
 		c.JSON(http.StatusBadRequest, outputForms.ErrorResponse{
 			Error: "Неверная форма запроса",
 		})
 		return
 	}
-	fmt.Println("No error")
-	fmt.Println(params)
 	catalogElement, err := h.services.AddCatalogElement(params.CatalogName, params.CatalogLevel, params.CatalogParentId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, outputForms.ErrorResponse{
 			Error: "Ошибка добавления данных",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, catalogElement)
+}
+
+// @Description Изменение имени элемента каталога
+// @Security BearerAuth
+// @Tags Catalog
+// @Accept json
+// @Produce json
+// @Param 		request 	body 		inputForms.ChangeCatalogNameInput 	true 	"query params"
+// @Success 	200 		{object} 	models.Catalog
+// @Router /catalog [put]
+func (h *Handler) changeCatalogElementName(c *gin.Context) {
+	var params inputForms.ChangeCatalogNameInput
+	if err := c.BindJSON(&params); err != nil {
+		c.JSON(http.StatusBadRequest, outputForms.ErrorResponse{
+			Error: "Неверная форма запроса",
+		})
+		return
+	}
+	catalogElement, err := h.services.ChangeCatalogElementName(params.NewCatalogName, params.CatalogLevel, params.CatalogId)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, outputForms.ErrorResponse{
+			Error: "Ошибка обновления данных",
 		})
 		return
 	}

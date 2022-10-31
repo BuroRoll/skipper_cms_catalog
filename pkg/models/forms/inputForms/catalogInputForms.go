@@ -15,3 +15,9 @@ type AddCatalogInput struct {
 	CatalogLevel    uint   `json:"catalog_level"`
 	CatalogParentId uint   `json:"catalog_parent_id"`
 }
+
+type ChangeCatalogNameInput struct {
+	NewCatalogName string `json:"newCatalogName"`
+	CatalogLevel   uint   `json:"catalog_level"`
+	CatalogId      uint   `json:"catalog_id"`
+}

@@ -17,6 +17,42 @@ const docTemplate = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/catalog": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Изменение имени элемента каталога",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Catalog"
+                ],
+                "parameters": [
+                    {
+                        "description": "query params",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/inputForms.ChangeCatalogNameInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Catalog"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -199,6 +235,20 @@ const docTemplate = `{
                 },
                 "catalog_parent_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "inputForms.ChangeCatalogNameInput": {
+            "type": "object",
+            "properties": {
+                "catalog_id": {
+                    "type": "integer"
+                },
+                "catalog_level": {
+                    "type": "integer"
+                },
+                "newCatalogName": {
+                    "type": "string"
                 }
             }
         },

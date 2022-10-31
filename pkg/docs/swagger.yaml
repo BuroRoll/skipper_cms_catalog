@@ -10,6 +10,15 @@ definitions:
     required:
     - catalog_name
     type: object
+  inputForms.ChangeCatalogNameInput:
+    properties:
+      catalog_id:
+        type: integer
+      catalog_level:
+        type: integer
+      newCatalogName:
+        type: string
+    type: object
   models.Catalog:
     properties:
       id:
@@ -88,6 +97,28 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/inputForms.AddCatalogInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Catalog'
+      security:
+      - BearerAuth: []
+      tags:
+      - Catalog
+    put:
+      consumes:
+      - application/json
+      description: Изменение имени элемента каталога
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/inputForms.ChangeCatalogNameInput'
       produces:
       - application/json
       responses:

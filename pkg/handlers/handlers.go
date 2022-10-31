@@ -31,6 +31,7 @@ func (h *Handler) InitRoutes() {
 
 			catalog.POST("/", h.addCatalogElement)
 
+			catalog.PUT("/", h.changeCatalogElementName)
 		}
 	}
 	docs.SwaggerInfo.BasePath = "/api/v1"
