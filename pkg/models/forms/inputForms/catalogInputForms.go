@@ -2,7 +2,7 @@ package inputForms
 
 type CatalogInput struct {
 	CatalogId    uint `form:"catalog_id" binding:"required"`
-	CatalogLevel uint `form:"catalog_level" binding:"required"`
+	CatalogLevel uint `form:"catalog_level"`
 }
 
 type CatalogChildInput struct {
