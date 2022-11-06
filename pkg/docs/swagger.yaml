@@ -51,7 +51,7 @@ info:
   title: Catalog service
   version: "1.0"
 paths:
-  /catalog:
+  /catalog/:
     delete:
       consumes:
       - application/json

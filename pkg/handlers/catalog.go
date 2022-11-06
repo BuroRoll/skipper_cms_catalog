@@ -52,7 +52,7 @@ func (h *Handler) getCatalogChild(c *gin.Context) {
 // @Success 	200 		{object} 	outputForms.DeleteResponse
 // @Failure     500         {object}  	outputForms.ErrorResponse
 // @Failure     400         {object}  	outputForms.ErrorResponse
-// @Router /catalog [delete]
+// @Router /catalog/ [delete]
 func (h *Handler) deleteCatalogElement(c *gin.Context) {
 	var params inputForms.CatalogInput
 	if err := c.Bind(&params); err != nil {
@@ -80,7 +80,7 @@ func (h *Handler) deleteCatalogElement(c *gin.Context) {
 // @Produce json
 // @Param 		request 	body 		inputForms.AddCatalogInput 	true 	"query params"
 // @Success 	200 		{object} 	models.Catalog
-// @Router /catalog [post]
+// @Router /catalog/ [post]
 func (h *Handler) addCatalogElement(c *gin.Context) {
 	var params inputForms.AddCatalogInput
 	if err := c.BindJSON(&params); err != nil {
@@ -106,7 +106,7 @@ func (h *Handler) addCatalogElement(c *gin.Context) {
 // @Produce json
 // @Param 		request 	body 		inputForms.ChangeCatalogNameInput 	true 	"query params"
 // @Success 	200 		{object} 	models.Catalog
-// @Router /catalog [put]
+// @Router /catalog/ [put]
 func (h *Handler) changeCatalogElementName(c *gin.Context) {
 	var params inputForms.ChangeCatalogNameInput
 	if err := c.BindJSON(&params); err != nil {

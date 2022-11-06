@@ -16,7 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/catalog": {
+        "/catalog/": {
             "put": {
                 "security": [
                     {
